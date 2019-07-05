@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue_2.5.22.js"></script>
+    <script src="lib/vue-router_3.0.2.js"></script>
+  
+</head>
+
+<body>
+    <!-- 2.容器 -->
+    <div id="app">
+        <!-- 路由占位符 -->
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <router-link to="/index">主页</router-link>
+        <router-link to="/category">分页</router-link>
+        <router-view></router-view>
+    </div>
+    <script>
+        //3.创建组件
+        const Login = {
+            template: "<h1>Login</h1>"
+        }
+        const Register = {
+            template: "<h1>Register</h1>"
+        }
+        const Index = {
+            template: "<h1>Index</h1>"
+        }
+        const Category = {
+            template: "<h1>Category</h1>"
+        }
+        // 4.创建VUEVueRouter对象
+        const myRouter = new VueRouter({
+            routes: [{
+                    path: "/login",
+                    component: Login
+                },
+                {
+                    path: "/register",
+                    component: Register
+                },
+                {
+                    path: "/index",
+                    component: Index
+                },
+                {
+                    path: "/category",
+                    component: Category
+                }
+            ]
+        })
+        const li = new Vue({
+            el: "#app",
+            data: {
+                
+            },
+            router:myRouter
+        })
+    </script>
+</body>
+
+</html>

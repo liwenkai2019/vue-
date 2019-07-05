@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue_2.5.22.js"></script>
+    <script src="lib/vue-router_3.0.2.js"></script>
+
+</head>
+
+<body>
+
+    <div id="add">
+        <!-- 2.添加路由连接 -->
+        <router-link to="/uname">名字</router-link>
+        <router-link to="/age">年龄</router-link>
+        <router-link to="/sex">性别</router-link>
+        <router-link to="/how/1">你是什么人</router-link>
+        <router-link to="/how/2">我怎么知道</router-link>
+        <router-link to="/how/3">傻逼知道</router-link>
+
+
+        <!-- 3.添加占位符 -->
+        <router-view></router-view>
+    </div>
+    <script>
+        // A.导入js文件
+        // B.添加路由链接
+        // C.添加路由占位符(最后路由展示的组件就会在占位符的位置显示)
+        // D.定义路由组件
+        // E.配置路由规则并创建路由实例
+        // F.将路由挂载到Vue实例中
+        // 4.定义路由组件
+        const Uname = {
+            template: `<h2>你猜猜</h2>`
+        }
+        const Age = {
+            template: `
+            <div>
+                <h2>我不猜</h2>
+                <hr/>
+                <router-link to="/age/mei">猜你妹</router-link>
+                <router-link to="/age/di">猜你第</router-link>
+                <router-view></router-view>
+            </div>`
+        }
+        const Sex = {
+            template: `
+            <div>
+            <h2>不猜了</h2>
+            <router-link to="/sex/nan"> 男  </router-link >
+            <router-link to="/sex/nv"> 女  </router-link >
+            <router-view></router-view>
+            </div>`
+        }
+        const How = {
+            props: ['id', 'name', 'age'],
+            template: `<h2>{{id}}--{{name}}--{{age}}</h2>`
+        }
+        // --------------------------------
+        // 以下是Age子路由
+        const Mei = {
+            template: `<h3>是你妹</h3>`
+        }
+        const Di = {
+            template: `<h3>是你第</h3>`
+        }
+        // ----------------------------
+        // 以下是Sex子路由
+        const Nan = {
+            template: `<h3>你是男的</h3>`
+        }
+        const Nv = {
+            template: `<h3>你是女的</h3>`
+        }
+        // ----------------------------
+        // 5.配置路由规则并创建路由实例
+        var MyRouter = new VueRouter({
+            routes: [{
+                    path: "/uname",
+                    component: Uname
+                },
+                {
+                    path: "/age",
+                    component: Age,
+                    children: [{
+                        path: "/age/mei",
+                        component: Mei
+                    }, {
+                        path: "/age/di",
+                        component: Di
+                    }]
+                }, {
+                    path: "/sex",
+                    component: Sex,
+                    children: [{
+                        path: "/sex/nan",
+                        component: Nan
+                    }, {
+                        path: "/sex/nv",
+                        component: Nv
+                    }]
+                }, {
+                    path: "/how/:id",
+                    component: How,
+                    props: route => ({
+                        id: route.parmas.id,
+                        name: '大傻逼',
+                        age: '未知道'
+                    })
+                }
+
+            ]
+        })
+        var li = new Vue({
+            el: '#add',
+            data: {},
+            // 6.挂载
+            router: MyRouter
+        })
+    </script>
+</body>
+
+</html>
